@@ -1,0 +1,21 @@
+services:
+  healthclinic_db:
+    image: postgres:15
+    container_name: healthclinic_db
+    networks:
+      - healthclinic-network
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: healthclinic_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  healthclinic-network:
+    driver: bridge
