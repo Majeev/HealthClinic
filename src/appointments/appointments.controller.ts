@@ -1,11 +1,12 @@
 import { Controller, Get } from "@nestjs/common";
-import { appointments } from "../appointments/appointments"
+import { AppointmentsService } from "./appointments.service";
 
 @Controller('appointments')
 export class AppointmentsController {
+  constructor(private readonly appointmentsService: AppointmentsService) {}
 
     @Get()
     index() {
-      return appointments
+      return this.appointmentsService.index()
     }
 }
