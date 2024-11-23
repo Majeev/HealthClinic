@@ -15,7 +15,7 @@ import { AppointmentsService } from './scheduler/appointments.service';
     DatabaseModule,
     SchedulerModule,
   ],
-  controllers: [AppController, AppointmentsController],
-  providers: [AppService, AppointmentsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

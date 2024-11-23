@@ -1,6 +1,8 @@
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { Appointment } from '../scheduler/appointments.entity';
+import { SchedulerModule } from '../scheduler/scheduler.module';
 
 @Module({
   providers: [],
@@ -15,7 +17,7 @@ import { Module } from '@nestjs/common';
           username: config.get('DATABASE_USERNAME'),
           password: config.get('DATABASE_PASSWORD'),
           database: 'healthclinic_db',
-          entities: [],
+          entities: [Appointment],
           synchronize: true,
         };
       },

@@ -9,9 +9,8 @@ export class AppointmentsController {
   index() {
     return this.appointmentsService.index();
   }
-
   @Post()
-  create(@Body() user: {}) {
-    return user;
+  create(@Body() {}) {
+    return this.appointmentsService.create();
   }
 }
