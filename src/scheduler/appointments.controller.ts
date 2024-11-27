@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -13,6 +22,27 @@ export class AppointmentsController {
 
   @Get()
   index() {
-    return this.appointmentsService.index();
+    return this.appointmentsService.getAllAppointments();
+  }
+
+  @Get(':id')
+  show(@Param('id') id: string) {
+    return this.appointmentsService.getAppointmentById(+id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateAppointmentDto: UpdateAppointmentDto,
+  ) {
+    return this.appointmentsService.updateAppointmentById(
+      +id,
+      updateAppointmentDto,
+    );
+  }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    this.appointmentsService.removeAppointmentById(+id);
+    return `Appointment with id: ${id} has been removed from database`;
   }
 }

@@ -5,12 +5,12 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   start_date: Date;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   end_date: Date;
 
-  @Column({ type: 'text', unique: true })
+  @Column({ type: 'text' })
   phone_number: string;
 }

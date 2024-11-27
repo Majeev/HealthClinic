@@ -1,8 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Appointment } from '../scheduler/appointments.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAppointmentDto } from '../dto/create-appointment.dto';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -15,22 +22,45 @@ export class AppointmentsService {
     const { start_date, end_date, phone_number } = createAppointmentDto;
 
     if (new Date(start_date) > new Date(end_date)) {
-      throw new HttpException(
+      throw new UnprocessableEntityException(
         'Start date must be before end date',
-        HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+    try {
+      const appointments = this.appointmentsRepository.create({
+        start_date: start_date,
+        end_date: end_date,
+        phone_number,
+      });
 
-    const appointments = this.appointmentsRepository.create({
-      start_date: new Date(start_date),
-      end_date: new Date(end_date),
-      phone_number,
-    });
-
-    return this.appointmentsRepository.save(appointments);
+      return await this.appointmentsRepository.save(appointments);
+    } catch (error) {
+      throw new BadRequestException(
+        `"start_date", "end_date" and "phone_number" are required`,
+        {
+          cause: error,
+        },
+      );
+    }
   }
 
-  async index() {
+  async getAllAppointments() {
     return await this.appointmentsRepository.find();
+  }
+
+  async getAppointmentById(id: number) {
+    return await this.appointmentsRepository.findOneByOrFail({ id });
+  }
+
+  async updateAppointmentById(
+    id: number,
+    updateAppointmentDto: UpdateAppointmentDto,
+  ) {
+    await this.appointmentsRepository.update(id, updateAppointmentDto);
+    return { ...updateAppointmentDto, id };
+  }
+
+  removeAppointmentById(id: number) {
+    this.appointmentsRepository.delete(id);
   }
 }
