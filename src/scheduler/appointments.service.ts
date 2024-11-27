@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Appointment } from '../scheduler/appointments.entity';
@@ -49,7 +50,11 @@ export class AppointmentsService {
   }
 
   async getAppointmentById(id: number) {
-    return await this.appointmentsRepository.findOneByOrFail({ id });
+    try {
+      return await this.appointmentsRepository.findOneByOrFail({ id });
+    } catch (e) {
+      throw new NotFoundException('Appointment not found');
+    }
   }
 
   async updateAppointmentById(
