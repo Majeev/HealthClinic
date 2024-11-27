@@ -50,8 +50,8 @@ export class AppointmentsService {
   async getAppointmentById(id: number) {
     try {
       return await this.appointmentsRepository.findOneByOrFail({ id });
-    } catch (e) {
-      throw new NotFoundException('Appointment not found');
+    } catch (error) {
+      throw new NotFoundException('Appointment not found', { cause: error });
     }
   }
 
