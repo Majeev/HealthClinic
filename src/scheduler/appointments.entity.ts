@@ -1,16 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity("appointments")
 export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Column()
-  // startDate: Date;
-  //
-  // @Column()
-  // endDate: Date;
+  @Column()
+  start_date: Date;
 
-  @Column({type: 'text', nullable:true})
+  @Column()
+  end_date: Date;
+
+  @Column({ type: 'text', unique:true})
   phone_number: string;
 }
