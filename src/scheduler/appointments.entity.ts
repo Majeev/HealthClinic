@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity("appointments")
+@Entity('appointments')
 export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,6 +11,6 @@ export class Appointment {
   @Column()
   end_date: Date;
 
-  @Column({ type: 'text', unique:true})
+  @Column({ type: 'text', unique: true })
   phone_number: string;
 }
