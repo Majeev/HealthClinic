@@ -63,7 +63,7 @@ export class AppointmentsService {
     return { ...updateAppointmentDto, id };
   }
 
-  removeAppointmentById(id: number) {
-    this.appointmentsRepository.delete(id);
+  async removeAppointmentById(id: number) {
+    await this.appointmentsRepository.delete(id);
   }
 }
