@@ -55,4 +55,14 @@ export class CustomersService {
       this.notFound(error);
     }
   }
+
+  async removeCustomerById(id: number) {
+    try {
+      await this.customersRepository.findOneByOrFail({ id });
+      await this.customersRepository.delete(id);
+      return `Customer with id: ${id} has been removed from database`;
+    } catch (error) {
+      this.notFound(error);
+    }
+  }
 }
