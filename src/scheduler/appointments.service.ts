@@ -18,7 +18,7 @@ export class AppointmentsService {
   ) {}
 
   async create(createAppointmentDto: CreateAppointmentDto) {
-    const { start_date, end_date, phone_number } = createAppointmentDto;
+    const { start_date, end_date } = createAppointmentDto;
 
     if (new Date(start_date) > new Date(end_date)) {
       throw new UnprocessableEntityException(
@@ -26,11 +26,8 @@ export class AppointmentsService {
       );
     }
     try {
-      const appointments = this.appointmentsRepository.create({
-        start_date: start_date,
-        end_date: end_date,
-        phone_number,
-      });
+      const appointments =
+        this.appointmentsRepository.create(createAppointmentDto);
 
       return await this.appointmentsRepository.save(appointments);
     } catch (error) {
