@@ -35,7 +35,7 @@ export class AppointmentsService {
       return await this.appointmentsRepository.save(appointments);
     } catch (error) {
       throw new BadRequestException(
-        `"start_date", "end_date" and "phone_number" are required`,
+        `Could not create requested appointment entity`,
         {
           cause: error,
         },
