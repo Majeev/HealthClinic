@@ -56,8 +56,13 @@ export class AppointmentsService {
     id: number,
     updateAppointmentDto: UpdateAppointmentDto,
   ) {
-    await this.appointmentsRepository.update(id, updateAppointmentDto);
-    return { ...updateAppointmentDto, id };
+    try {
+      await this.appointmentsRepository.findOneByOrFail({ id });
+      await this.appointmentsRepository.update(id, updateAppointmentDto);
+      return { ...updateAppointmentDto, id };
+    } catch (error) {
+      throw new NotFoundException('Appointment not found', { cause: error });
+    }
   }
 
   async removeAppointmentById(id: number) {
