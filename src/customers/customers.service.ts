@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Customer } from './customers.entity';
@@ -26,6 +30,14 @@ export class CustomersService {
           cause: error,
         },
       );
+    }
+  }
+
+  async getCustomerById(id: number) {
+    try {
+      return await this.customersRepository.findOneByOrFail({ id });
+    } catch (error) {
+      throw new NotFoundException('Customer not found', { cause: error });
     }
   }
 }
