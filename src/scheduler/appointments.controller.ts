@@ -43,5 +43,6 @@ export class AppointmentsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.appointmentsService.removeAppointmentById(+id);
+
   }
 }

@@ -17,7 +17,9 @@ import { Customer } from '../customers/customers.entity';
           username: config.get('DATABASE_USERNAME'),
           password: config.get('DATABASE_PASSWORD'),
           database: 'healthclinic_db',
+
           entities: [Appointment, Customer],
+
           synchronize: true,
         };
       },
