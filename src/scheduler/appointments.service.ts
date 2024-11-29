@@ -18,7 +18,7 @@ export class AppointmentsService {
   ) {}
 
   async create(createAppointmentDto: CreateAppointmentDto) {
-    const { start_date, end_date, phone_number } = createAppointmentDto;
+    const { start_date, end_date } = createAppointmentDto;
 
     if (new Date(start_date) > new Date(end_date)) {
       throw new UnprocessableEntityException(
@@ -26,16 +26,12 @@ export class AppointmentsService {
       );
     }
     try {
-      const appointments = this.appointmentsRepository.create({
-        start_date: start_date,
-        end_date: end_date,
-        phone_number,
-      });
-
+      const appointments =
+        this.appointmentsRepository.create(createAppointmentDto);
       return await this.appointmentsRepository.save(appointments);
     } catch (error) {
       throw new BadRequestException(
-        `"start_date", "end_date" and "phone_number" are required`,
+        `Could not create requested appointment entity`,
         {
           cause: error,
         },
@@ -59,11 +55,24 @@ export class AppointmentsService {
     id: number,
     updateAppointmentDto: UpdateAppointmentDto,
   ) {
-    await this.appointmentsRepository.update(id, updateAppointmentDto);
-    return { ...updateAppointmentDto, id };
+    try {
+      await this.appointmentsRepository.findOneByOrFail({ id });
+      await this.appointmentsRepository.update(id, updateAppointmentDto);
+      return { ...updateAppointmentDto, id };
+    } catch (error) {
+      throw new NotFoundException('Appointment not found', { cause: error });
+    }
   }
 
   async removeAppointmentById(id: number) {
-    await this.appointmentsRepository.delete(id);
+    try {
+      await this.appointmentsRepository.findOneByOrFail({ id });
+      await this.appointmentsRepository.delete(id);
+      return `Appointment with id: ${id} has been removed from database`;
+    } catch (error) {
+      throw new NotFoundException(`Appointment with id: ${id} doesn't exist`, {
+        cause: error,
+      });
+    }
   }
 }

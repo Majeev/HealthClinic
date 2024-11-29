@@ -2,6 +2,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { Appointment } from '../scheduler/appointments.entity';
+import { Customer } from '../customers/customers.entity';
 
 @Module({
   providers: [],
@@ -16,7 +17,9 @@ import { Appointment } from '../scheduler/appointments.entity';
           username: config.get('DATABASE_USERNAME'),
           password: config.get('DATABASE_PASSWORD'),
           database: 'healthclinic_db',
-          entities: [Appointment],
+
+          entities: [Appointment, Customer],
+
           synchronize: true,
         };
       },
