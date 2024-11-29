@@ -6,7 +6,6 @@ import { DatabaseModule } from './database/database.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { CustomersModule } from './customers/customers.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

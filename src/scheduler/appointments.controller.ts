@@ -40,9 +40,9 @@ export class AppointmentsController {
       updateAppointmentDto,
     );
   }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.appointmentsService.removeAppointmentById(+id);
-
   }
 }

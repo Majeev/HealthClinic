@@ -18,9 +18,7 @@ export class AppointmentsService {
   ) {}
 
   async create(createAppointmentDto: CreateAppointmentDto) {
-
     const { start_date, end_date } = createAppointmentDto;
-
 
     if (new Date(start_date) > new Date(end_date)) {
       throw new UnprocessableEntityException(
@@ -28,13 +26,11 @@ export class AppointmentsService {
       );
     }
     try {
-
       const appointments =
         this.appointmentsRepository.create(createAppointmentDto);
       return await this.appointmentsRepository.save(appointments);
     } catch (error) {
       throw new BadRequestException(
-
         `Could not create requested appointment entity`,
         {
           cause: error,
@@ -59,7 +55,6 @@ export class AppointmentsService {
     id: number,
     updateAppointmentDto: UpdateAppointmentDto,
   ) {
-
     try {
       await this.appointmentsRepository.findOneByOrFail({ id });
       await this.appointmentsRepository.update(id, updateAppointmentDto);
@@ -79,6 +74,5 @@ export class AppointmentsService {
         cause: error,
       });
     }
-
   }
 }
