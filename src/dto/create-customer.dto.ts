@@ -5,7 +5,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreateAppointmentDto {
+export class CreateCustomerDto {
   @IsNotEmpty()
   first_name: string;
 
