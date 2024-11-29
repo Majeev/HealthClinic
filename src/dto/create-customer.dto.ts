@@ -1,5 +1,6 @@
 import {
   IsDateString,
+  IsEmail,
   IsNotEmpty,
   IsPhoneNumber,
   IsString,
@@ -22,6 +23,7 @@ export class CreateCustomerDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsEmail()
   email: string;
 
   @IsNotEmpty()
