@@ -42,7 +42,6 @@ export class AppointmentsController {
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    this.appointmentsService.removeAppointmentById(+id);
-    return `Appointment with id: ${id} has been removed from database`;
+    return this.appointmentsService.removeAppointmentById(+id);
   }
 }

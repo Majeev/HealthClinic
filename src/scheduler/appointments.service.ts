@@ -64,6 +64,14 @@ export class AppointmentsService {
   }
 
   async removeAppointmentById(id: number) {
-    await this.appointmentsRepository.delete(id);
+    try {
+      await this.appointmentsRepository.findOneByOrFail({ id });
+      await this.appointmentsRepository.delete(id);
+      return `Appointment with id: ${id} has been removed from database`;
+    } catch (error) {
+      throw new NotFoundException(`Appointment with id: ${id} doesn't exist`, {
+        cause: error,
+      });
+    }
   }
 }
