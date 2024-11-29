@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Customer } from './customers.entity';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
+import { UpdateAppointmentDto } from '../dto/update-appointment.dto';
+import { UpdateCustomerDto } from '../dto/update-customer.dto';
 
 @Injectable()
 export class CustomersService {
@@ -39,5 +41,10 @@ export class CustomersService {
     } catch (error) {
       throw new NotFoundException('Customer not found', { cause: error });
     }
+  }
+
+  async updateCustomerById(id: number, updateCustomerDto: UpdateCustomerDto) {
+    await this.customersRepository.update(id, updateCustomerDto);
+    return { ...updateCustomerDto, id };
   }
 }
